@@ -24,7 +24,13 @@ namespace BM12
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IotContext>(options => options.UseSqlServer(Configuration["ConnectionString:BM12DB"]));
+            // Add framework services.
+            services.AddDbContext<IotContext>(
+                e =>
+                {
+                    e.EnableSensitiveDataLogging();
+                    e.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                });
             services.AddMvc();
         }
 

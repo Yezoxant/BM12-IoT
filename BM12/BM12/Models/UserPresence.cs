@@ -6,7 +6,7 @@ namespace BM12.Models
 {
     public class UserPresence
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string CourseActivity { get; set; }
         public string Course { get; set; }
         public string Week { get; set; }
