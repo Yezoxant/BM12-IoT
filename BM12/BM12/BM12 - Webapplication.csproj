@@ -5,17 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="obj\Debug\netcoreapp2.0\BM12 - Webapplication.AssemblyInfo.cs" />
-    <Compile Include="obj\Release\netcoreapp2.0\BM12 - Webapplication.AssemblyInfo.cs" />
+    <Compile Remove="bin\**" />
+    <Compile Remove="obj\**" />
+    <Content Remove="bin\**" />
+    <Content Remove="obj\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="obj\**" />
+    <None Remove="bin\**" />
+    <None Remove="obj\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="obj\project.assets.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="bin\Debug\netcoreapp2.0\" />
-    <Folder Include="bin\Release\netcoreapp2.0\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -25,16 +25,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="obj\BM12 - Webapplication.csproj.nuget.cache" />
-    <None Include="obj\BM12 - Webapplication.csproj.nuget.g.props" />
-    <None Include="obj\BM12 - Webapplication.csproj.nuget.g.targets" />
-    <None Include="obj\Debug\netcoreapp2.0\BM12 - Webapplication.AssemblyInfoInputs.cache" />
-    <None Include="obj\Debug\netcoreapp2.0\BM12 - Webapplication.csproj.CoreCompileInputs.cache" />
-    <None Include="obj\Release\netcoreapp2.0\BM12 - Webapplication.AssemblyInfoInputs.cache" />
-    <None Include="obj\Release\netcoreapp2.0\BM12 - Webapplication.csproj.CoreCompileInputs.cache" />
   </ItemGroup>
 
 </Project>

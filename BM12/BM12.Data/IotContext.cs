@@ -21,5 +21,6 @@ namespace BM12___Entity_Framework
         public DbSet<PictureData> PictureData { get; set; }
         public DbSet<Beacon> Beacons { get; set; }
         public DbSet<UserPresence> Userpresence { get; set; }
+
     }
 }
