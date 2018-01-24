@@ -11,5 +11,8 @@ namespace BM12.Data.Models
         public DateTime Time { get; set; }
         public string Attention { get; set; }
         public string Emotion { get; set; }
+
+        //conventions
+        public virtual User User { get; set; }
     }
 }

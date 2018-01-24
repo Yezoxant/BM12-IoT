@@ -11,5 +11,6 @@ namespace BM12.Data.Models
         public int Id { get; set; }
         public string Classname { get; set; }
         public int Year { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

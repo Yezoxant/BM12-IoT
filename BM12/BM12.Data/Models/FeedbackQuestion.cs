@@ -8,5 +8,8 @@ namespace BM12.Data.Models
     {
         public int Id { get; set; }
         public string Question { get; set; }
+
+        //conventions
+        public virtual ICollection<FeedbackAnswer> FeedbackAnswer { get; set; }
     }
 }

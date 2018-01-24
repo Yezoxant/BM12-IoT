@@ -14,5 +14,11 @@ namespace BM12.Data.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Agreement { get; set; }
+
+        //Conventions
+        public virtual Class Class { get; set; }
+        public virtual ICollection<FeedbackAnswer> FeedbackAnswer { get; set; }
+        public virtual ICollection<UserPresence> UserPresence { get; set; }
+        public virtual ICollection<PictureData> PictureData { get; set; }
     }
 }

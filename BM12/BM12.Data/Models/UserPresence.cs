@@ -12,5 +12,8 @@ namespace BM12.Data.Models
         public string Week { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
+
+        //conventions
+        public virtual User user { get; set; }
     }
 }
