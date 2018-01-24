@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BM12 - Webapplication", "BM12\BM12 - Webapplication.csproj", "{A766F600-5957-49E3-8958-F090F5FEB27C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{757C70BB-7F68-40BE-9327-7870329A32F9} = {757C70BB-7F68-40BE-9327-7870329A32F9}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BM12.Data", "BM12 - Entity Framework\BM12.Data.csproj", "{757C70BB-7F68-40BE-9327-7870329A32F9}"
 EndProject
