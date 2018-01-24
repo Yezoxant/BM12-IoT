@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BM12___Entity_Framework.Models
+namespace BM12.Data.Models
 {
     public class Class
     {
         public int Id { get; set; }
-        public string classname { get; set; }
-        public 
+        public string Classname { get; set; }
+        public int Year { get; set; }
     }
 }

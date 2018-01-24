@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using BM12___Entity_Framework.Models;
+using BM12.Data.Models;
 
 namespace BM12___Entity_Framework
 {
@@ -16,5 +16,10 @@ namespace BM12___Entity_Framework
 
         public DbSet<Class> Classes { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<FeedbackQuestion> FeedbackQuestions { get; set; }
+        public DbSet<FeedbackAnswer> Feedbackanswers { get; set; }
+        public DbSet<PictureData> PictureData { get; set; }
+        public DbSet<Beacon> Beacons { get; set; }
+        public DbSet<UserPresence> Userpresence { get; set; }
     }
 }
