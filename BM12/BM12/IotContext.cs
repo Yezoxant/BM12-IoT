@@ -22,5 +22,8 @@ namespace BM12
         public DbSet<Beacon> Beacons { get; set; }
         public DbSet<UserPresence> Userpresence { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+        }
     }
 }
