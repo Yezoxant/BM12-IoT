@@ -21,6 +21,10 @@ namespace Estimotes.Droid
     {
         IMenuItem refreshItem;
         BeaconManager beaconManager;
+        bool isScanning;
+        string post_url;
+        bool entered_class;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -34,12 +38,8 @@ namespace Estimotes.Droid
 
                     RunOnUiThread(()=>
                         {
-					var items = e.Eddystones.Select(n => "Room: " + (n.Namespace).ToString().Remove((n.Namespace).ToString().Length - 15) + "\nActivity: " + GetActivity(n.Instance) + "\nDistance: " + RegionUtils.ComputeProximity(n));
-                            ListAdapter = new ArrayAdapter<string>(this, 
-                                Android.Resource.Layout.SimpleListItem1, 
-                                Android.Resource.Id.Text1, 
-                                items.ToArray());
-
+					        var items = e.Eddystones.Select(n => "Room: " + (n.Namespace).ToString().Remove((n.Namespace).ToString().Length - 15) + "\nActivity: " + GetActivity(n.Instance, n.Namespace) + "\nDistance: " + RegionUtils.ComputeProximity(n));
+                            ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, Android.Resource.Id.Text1, items.ToArray());
                             ActionBar.Subtitle = string.Format("Found {0} classes.", items.Count());
                         });
                 };
@@ -50,7 +50,8 @@ namespace Estimotes.Droid
             switch (position)
             {
                 case 0: // First one
-                    var uri = Android.Net.Uri.Parse("http://www.zuyd.nl");
+                    entered_class = true;
+                    var uri = Android.Net.Uri.Parse("http://www.zuyd.nl/"+post_url);
                     var intent = new Intent(Intent.ActionView, uri);
                     StartActivity(intent);
                     break;
@@ -59,7 +60,7 @@ namespace Estimotes.Droid
 
         private void Stop()
         {
-            if (isScanning)
+            if (!isScanning)
                 return;
 
             isScanning = false;
@@ -99,9 +100,7 @@ namespace Estimotes.Droid
             }
             return base.OnOptionsItemSelected(item);
         }
-
-
-        bool isScanning;
+   
         private void LookForEddystones()
         {
             if (isScanning)
@@ -125,10 +124,29 @@ namespace Estimotes.Droid
             beaconManager.Disconnect();
         }
 
-        public string GetActivity(string activeID)
+        public string GetActivity(string activeID, string room)
         {
-            var url = "fancyDNSaddress/id/" + activeID;
-            return "Discussiecollege";
+            post_url = "" + (room).ToString().Remove((room).ToString().Length - 15) + "/" + activeID;
+            if (activeID == "111111111111")
+            {
+                return "Hoorcollege";
+            }
+            else if (activeID == "222222222222")
+            {
+                return "Discussiecollege";
+            }
+            else if (activeID == "333333333333")
+            {
+                return "Werkcollege";
+            }
+            else if (activeID == "444444444444")
+            {
+                return "Zelfstudie";
+            }
+            else
+            {
+                return "Overige activiteit";
+            }
         }
     }
 }
