@@ -22,8 +22,13 @@ namespace BM12
         public DbSet<Beacon> Beacons { get; set; }
         public DbSet<UserPresence> Userpresence { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder OptionsBuilder)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         }
     }
 }
