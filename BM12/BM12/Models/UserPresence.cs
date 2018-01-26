@@ -18,8 +18,7 @@ namespace BM12.Models
         [Required]
         [MaxLength(2,ErrorMessage ="Maximale lengte is 2 cijfers")]
         public int Week { get; set; }
-        public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Datetime { get; set; }
 
         //conventions
         public virtual User user { get; set; }

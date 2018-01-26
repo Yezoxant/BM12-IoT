@@ -9,8 +9,7 @@ namespace BM12.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime DateTime { get; set; }
         public string Attention { get; set; }
         public string Emotion { get; set; }
 

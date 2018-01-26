@@ -11,9 +11,10 @@ using System;
 namespace BM12Webapplication.Migrations
 {
     [DbContext(typeof(IotContext))]
-    partial class IotContextModelSnapshot : ModelSnapshot
+    [Migration("20180126163009_Change picturetable")]
+    partial class Changepicturetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
