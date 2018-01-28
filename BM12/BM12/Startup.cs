@@ -22,6 +22,7 @@ namespace BM12
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +30,13 @@ namespace BM12
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            });
+
             // Add framework services.
             services.AddDbContext<IotContext>(
                 e =>
@@ -76,6 +84,10 @@ namespace BM12
 
             app.UseAuthentication();
             app.UseMvc();
+            app.UseCors("AllowAll");
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
             // ===== Create tables ======
             dbContext.Database.EnsureCreated();
         }
