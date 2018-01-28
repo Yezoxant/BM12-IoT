@@ -18,7 +18,7 @@ using System.Text;
 namespace BM12___Webapplication.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Users")]
+    [Route("api/authentication")]
     public class UsersController : Controller
     {
         private readonly IotContext _context;
@@ -39,8 +39,9 @@ namespace BM12___Webapplication.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
         }
+
         #region Login
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<object> Login([FromBody] LoginDto model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
@@ -52,6 +53,25 @@ namespace BM12___Webapplication.Controllers
             }
 
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+        }
+
+        [HttpPost("register")]
+        public async Task<object> Register([FromBody] RegisterDto model)
+        {
+            var user = new IdentityUser
+            {
+                UserName = model.Email,
+                Email = model.Email
+            };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
+                return await GenerateJwtToken(model.Email, user);
+            }
+
+            throw new ApplicationException("UNKNOWN_ERROR");
         }
 
         private async Task<object> GenerateJwtToken(string email, IdentityUser user)
@@ -87,110 +107,18 @@ namespace BM12___Webapplication.Controllers
             public string Password { get; set; }
 
         }
-        #endregion
 
-        #region Useless PoC
-        // GET: api/Users
-        [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public class RegisterDto
         {
-            return _context.Users;
-        }
+            [Required]
+            public string Email { get; set; }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
-
-        // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Users
-        [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(user);
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
+            [Required]
+            [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
+            public string Password { get; set; }
         }
         #endregion
+
+
     }
 }

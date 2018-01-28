@@ -11,22 +11,15 @@ namespace BM12.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Veld kan maximaal 50 tekens bevatten")]
-        public string Firstname { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage ="Veld kan maximaal 50 tekens bevatten")]
-        public string Surname { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public string IdentityId { get; set; }
         public bool Agreement { get; set; }
+
 
         //Conventions
         public virtual Class Class { get; set; }
         public virtual ICollection<FeedbackAnswer> FeedbackAnswer { get; set; }
         public virtual ICollection<UserPresence> UserPresence { get; set; }
         public virtual ICollection<PictureData> PictureData { get; set; }
+        public AppUser Identity { get; set; }
     }
 }
