@@ -19,7 +19,7 @@ namespace Estimotes.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            var items = new string []{ "Available Classes", "Version: 0.2" };
+            var items = new string []{ "Beschikbare activiteiten", "Versie 0.3" };
 
             ListAdapter = new ArrayAdapter<string>(this, 
                 Android.Resource.Layout.SimpleListItem1, 

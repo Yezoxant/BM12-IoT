@@ -16,7 +16,7 @@ using EstimoteSdk.Service;
 
 namespace Estimotes.Droid
 {
-    [Activity(Label = "Classes in range")]            
+    [Activity(Label = "Activiteiten")]            
     public class EddystoneActivity : ListActivity , BeaconManager.IServiceReadyCallback
     {
         IMenuItem refreshItem;
@@ -25,11 +25,11 @@ namespace Estimotes.Droid
         string post_url;
         bool entered_class;
 
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            // Create your application here
             beaconManager = new BeaconManager(this);
             beaconManager.Eddystone += (sender, e) => 
                 {
@@ -38,9 +38,9 @@ namespace Estimotes.Droid
 
                     RunOnUiThread(()=>
                         {
-					        var items = e.Eddystones.Select(n => "Room: " + (n.Namespace).ToString().Remove((n.Namespace).ToString().Length - 15) + "\nActivity: " + GetActivity(n.Instance, n.Namespace) + "\nDistance: " + RegionUtils.ComputeProximity(n));
+					        var items = e.Eddystones.Select(n => "Lokaal: " + (n.Namespace).ToString().Remove((n.Namespace).ToString().Length - 15) + "\nActiviteit: " + GetActivity(n.Instance, n.Namespace) + "\nAfstand: " + RegionUtils.ComputeProximity(n));
                             ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, Android.Resource.Id.Text1, items.ToArray());
-                            ActionBar.Subtitle = string.Format("Found {0} classes.", items.Count());
+                            ActionBar.Subtitle = string.Format("{0} activiteit gevonden.", items.Count());
                         });
                 };
         }
@@ -50,11 +50,24 @@ namespace Estimotes.Droid
             switch (position)
             {
                 case 0: // First one
-                    entered_class = true;
-                    var uri = Android.Net.Uri.Parse("http://www.zuyd.nl/"+post_url);
-                    var intent = new Intent(Intent.ActionView, uri);
-                    StartActivity(intent);
-                    break;
+                    if (!entered_class)
+                    {
+                        entered_class = true;
+                        var uri = Android.Net.Uri.Parse("http://www.zuyd.nl/login" + post_url);
+                        var intentlogin = new Intent(Intent.ActionView, uri);
+                        StartActivity(intentlogin);
+                        break;
+                    }
+                    else
+                    {
+                        entered_class = false;
+                        var uri = Android.Net.Uri.Parse("http://www.zuyd.nl/feedback" + post_url);
+                        var intentfeedback = new Intent(Intent.ActionView, uri);
+                        StartActivity(intentfeedback);
+                        break;
+                    }
+                    
+
             }
         }
 
@@ -126,7 +139,7 @@ namespace Estimotes.Droid
 
         public string GetActivity(string activeID, string room)
         {
-            post_url = "" + (room).ToString().Remove((room).ToString().Length - 15) + "/" + activeID;
+            post_url = "?l=" + (room).ToString().Remove((room).ToString().Length - 15) + "&a=" + activeID;
             if (activeID == "111111111111")
             {
                 return "Hoorcollege";
