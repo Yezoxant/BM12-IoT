@@ -12,9 +12,10 @@ using System;
 namespace BM12Webapplication.Migrations
 {
     [DbContext(typeof(IotContext))]
-    partial class IotContextModelSnapshot : ModelSnapshot
+    [Migration("20180129122247_Switch-data-from-appuser-to-user")]
+    partial class Switchdatafromappusertouser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +121,15 @@ namespace BM12Webapplication.Migrations
 
                     b.Property<int>("ClassId");
 
+                    b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
                     b.Property<string>("IdentityId");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -128,7 +137,7 @@ namespace BM12Webapplication.Migrations
 
                     b.HasIndex("IdentityId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("BM12.Models.UserPresence", b =>
@@ -326,13 +335,6 @@ namespace BM12Webapplication.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("Firstname")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(50);
 
                     b.ToTable("AppUser");
 

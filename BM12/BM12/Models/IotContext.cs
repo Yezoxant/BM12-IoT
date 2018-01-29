@@ -16,7 +16,7 @@ namespace BM12
         }
 
         public DbSet<Class> Classes { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<FeedbackQuestion> FeedbackQuestions { get; set; }
         public DbSet<FeedbackAnswer> Feedbackanswers { get; set; }
         public DbSet<PictureData> PictureData { get; set; }

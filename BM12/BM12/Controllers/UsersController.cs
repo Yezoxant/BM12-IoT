@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
+
 namespace BM12___Webapplication.Controllers
 {
     [Produces("application/json")]
@@ -58,16 +59,21 @@ namespace BM12___Webapplication.Controllers
         [HttpPost("register")]
         public async Task<object> Register([FromBody] RegisterDto model)
         {
-            var user = new IdentityUser
+            var user = new AppUser
             {
                 UserName = model.Email,
-                Email = model.Email
+                Email = model.Email,
+                Firstname = model.FirstName,
+                Surname = model.SurName
             };
+            //var userIdentity = _mapper.Map<AppUser>(model);
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
+                await _context.User.AddAsync(new User { IdentityId = user.Id, ClassId = 1 });
+                await _context.SaveChangesAsync();
                 return await GenerateJwtToken(model.Email, user);
             }
 
@@ -116,6 +122,11 @@ namespace BM12___Webapplication.Controllers
             [Required]
             [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
             public string Password { get; set; }
+
+            [Required]
+            public string FirstName { get; set; }
+            [Required]
+            public string SurName { get; set; }
         }
         #endregion
 
