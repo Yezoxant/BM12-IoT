@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace BM12.Models
@@ -19,6 +20,8 @@ namespace BM12.Models
         [MaxLength(2,ErrorMessage ="Maximale lengte is 2 cijfers")]
         public int Week { get; set; }
         public DateTime Datetime { get; set; }
+        [ForeignKey("User")]
+        public int UserId { get; set; }
 
         //conventions
         public virtual User user { get; set; }
