@@ -53,7 +53,7 @@ namespace Estimotes.Droid
                     if (!entered_class)
                     {
                         entered_class = true;
-                        var uri = Android.Net.Uri.Parse("http://www.zuyd.nl/login" + post_url);
+                        var uri = Android.Net.Uri.Parse("https://iotzuyd.azurewebsites.net/login" + post_url);
                         var intentlogin = new Intent(Intent.ActionView, uri);
                         StartActivity(intentlogin);
                         break;
@@ -61,13 +61,11 @@ namespace Estimotes.Droid
                     else
                     {
                         entered_class = false;
-                        var uri = Android.Net.Uri.Parse("http://www.zuyd.nl/feedback" + post_url);
+                        var uri = Android.Net.Uri.Parse("https://iotzuyd.azurewebsites.net/feedback" + post_url);
                         var intentfeedback = new Intent(Intent.ActionView, uri);
                         StartActivity(intentfeedback);
                         break;
                     }
-                    
-
             }
         }
 
