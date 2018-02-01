@@ -17,11 +17,15 @@ namespace BM12
 
         public DbSet<Class> Classes { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<FeedbackQuestion> FeedbackQuestions { get; set; }
-        public DbSet<FeedbackAnswer> Feedbackanswers { get; set; }
         public DbSet<PictureData> PictureData { get; set; }
         public DbSet<Beacon> Beacons { get; set; }
-        public DbSet<UserPresence> Userpresence { get; set; }
+        public DbSet<UserActivity> Userpresences { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<ClassCourse> ClassCourse { get; set; }
+        public DbSet<CourseActivity> CourseActivity { get; set; }
+        public DbSet<UserActivity> UserActivity { get; set; }
+        public DbSet<UserClass> UserClass { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder OptionsBuilder)
         {
@@ -43,7 +47,7 @@ namespace BM12
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.Entity<User>().HasIndex(u => u.Identity.Email).IsUnique();
+            
         }
     }
 }

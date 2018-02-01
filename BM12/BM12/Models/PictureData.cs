@@ -14,9 +14,9 @@ namespace BM12.Models
         public string Attention { get; set; }
         public string Emotion { get; set; }
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public int UserActivityID { get; set; }
 
         //conventions
-        public virtual User User { get; set; }
+        public virtual UserActivity UserActivity { get; set; }
     }
 }

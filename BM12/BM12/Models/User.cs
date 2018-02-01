@@ -21,7 +21,7 @@ namespace BM12.Models
         //Conventions
         public virtual Class Class { get; set; }
         public virtual ICollection<FeedbackAnswer> FeedbackAnswer { get; set; }
-        public virtual ICollection<UserPresence> UserPresence { get; set; }
+        public virtual ICollection<UserActivity> UserActivity { get; set; }
         public virtual ICollection<PictureData> PictureData { get; set; }
         public AppUser Identity { get; set; }
     }
