@@ -49,7 +49,14 @@ namespace BM12___Webapplication.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+                var appUser = await _userManager.Users.SingleOrDefaultAsync(r => r.Email == model.Email);
+                string identityId = appUser.Id.ToString();
+                var user = await _context.User.SingleOrDefaultAsync(u => u.Identity.Id == identityId);
+
+                if (model.Activity != null)
+                {
+                    await _context.UserActivity.AddAsync(new UserActivity { UserID = user.UserID, ActivityID = model.Activity, Presence = true, PresenceDatetime = DateTime.Today });
+                }
                 return await GenerateJwtToken(model.Email, appUser);
             }
 
@@ -111,6 +118,9 @@ namespace BM12___Webapplication.Controllers
 
             [Required]
             public string Password { get; set; }
+
+
+            public int Activity { get; set; }
 
         }
 

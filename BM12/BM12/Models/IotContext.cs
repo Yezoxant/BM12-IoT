@@ -48,5 +48,7 @@ namespace BM12
             base.OnModelCreating(builder);
             
         }
+
+        public DbSet<BM12.Models.AppUser> AppUser { get; set; }
     }
 }
