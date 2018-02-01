@@ -12,9 +12,10 @@ using System;
 namespace BM12Webapplication.Migrations
 {
     [DbContext(typeof(IotContext))]
-    partial class IotContextModelSnapshot : ModelSnapshot
+    [Migration("20180201142228_Databaseiskut")]
+    partial class Databaseiskut
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,13 +29,7 @@ namespace BM12Webapplication.Migrations
 
                     b.Property<string>("ActivityName");
 
-                    b.Property<int>("ClassCourseID");
-
-                    b.Property<DateTime>("Date");
-
                     b.HasKey("ActivityID");
-
-                    b.HasIndex("ClassCourseID");
 
                     b.ToTable("Activities");
                 });
@@ -364,14 +359,6 @@ namespace BM12Webapplication.Migrations
                     b.ToTable("AppUser");
 
                     b.HasDiscriminator().HasValue("AppUser");
-                });
-
-            modelBuilder.Entity("BM12.Models.Activity", b =>
-                {
-                    b.HasOne("BM12.Models.ClassCourse", "ClassCourse")
-                        .WithMany()
-                        .HasForeignKey("ClassCourseID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BM12.Models.ClassCourse", b =>

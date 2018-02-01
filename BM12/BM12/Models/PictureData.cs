@@ -9,14 +9,12 @@ namespace BM12.Models
     public class PictureData
     {
         [Key]
-        public int Id { get; set; }
+        public int PictureDataID { get; set; }
         public DateTime DateTime { get; set; }
         public string Attention { get; set; }
         public string Emotion { get; set; }
-        [ForeignKey("User")]
-        public int UserActivityID { get; set; }
 
         //conventions
-        public virtual UserActivity UserActivity { get; set; }
+        public virtual ICollection<UserActivity> UserActivity { get; set; }
     }
 }

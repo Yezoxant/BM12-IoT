@@ -12,9 +12,10 @@ using System;
 namespace BM12Webapplication.Migrations
 {
     [DbContext(typeof(IotContext))]
-    partial class IotContextModelSnapshot : ModelSnapshot
+    [Migration("20180201141122_Database-Fixen")]
+    partial class DatabaseFixen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,13 +29,7 @@ namespace BM12Webapplication.Migrations
 
                     b.Property<string>("ActivityName");
 
-                    b.Property<int>("ClassCourseID");
-
-                    b.Property<DateTime>("Date");
-
                     b.HasKey("ActivityID");
-
-                    b.HasIndex("ClassCourseID");
 
                     b.ToTable("Activities");
                 });
@@ -116,7 +111,17 @@ namespace BM12Webapplication.Migrations
 
                     b.Property<string>("Emotion");
 
+                    b.Property<int>("UserActivityID");
+
+                    b.Property<int?>("UserActivityID1");
+
+                    b.Property<int?>("UserID");
+
                     b.HasKey("PictureDataID");
+
+                    b.HasIndex("UserActivityID1");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("PictureData");
                 });
@@ -159,8 +164,6 @@ namespace BM12Webapplication.Migrations
                     b.HasKey("UserActivityID");
 
                     b.HasIndex("ActivityID");
-
-                    b.HasIndex("PictureDataID");
 
                     b.HasIndex("UserID");
 
@@ -366,14 +369,6 @@ namespace BM12Webapplication.Migrations
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
-            modelBuilder.Entity("BM12.Models.Activity", b =>
-                {
-                    b.HasOne("BM12.Models.ClassCourse", "ClassCourse")
-                        .WithMany()
-                        .HasForeignKey("ClassCourseID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("BM12.Models.ClassCourse", b =>
                 {
                     b.HasOne("BM12.Models.Class", "Class")
@@ -385,6 +380,17 @@ namespace BM12Webapplication.Migrations
                         .WithMany("ClassCourse")
                         .HasForeignKey("CourseID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BM12.Models.PictureData", b =>
+                {
+                    b.HasOne("BM12.Models.UserActivity", "UserActivity")
+                        .WithMany()
+                        .HasForeignKey("UserActivityID1");
+
+                    b.HasOne("BM12.Models.User")
+                        .WithMany("PictureData")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("BM12.Models.User", b =>
@@ -399,11 +405,6 @@ namespace BM12Webapplication.Migrations
                     b.HasOne("BM12.Models.Activity", "Activity")
                         .WithMany("UserActivity")
                         .HasForeignKey("ActivityID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BM12.Models.PictureData", "PictureData")
-                        .WithMany("UserActivity")
-                        .HasForeignKey("PictureDataID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BM12.Models.User", "User")

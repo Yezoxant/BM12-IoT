@@ -23,7 +23,6 @@ namespace BM12
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<ClassCourse> ClassCourse { get; set; }
-        public DbSet<CourseActivity> CourseActivity { get; set; }
         public DbSet<UserActivity> UserActivity { get; set; }
         public DbSet<UserClass> UserClass { get; set; }
 

@@ -12,9 +12,10 @@ using System;
 namespace BM12Webapplication.Migrations
 {
     [DbContext(typeof(IotContext))]
-    partial class IotContextModelSnapshot : ModelSnapshot
+    [Migration("20180201143759_NOg een update")]
+    partial class NOgeenupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

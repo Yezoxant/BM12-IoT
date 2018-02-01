@@ -25,5 +25,6 @@ namespace BM12.Models
         //conventions
         public virtual User User { get; set; }
         public virtual Activity Activity { get; set; }
+        public virtual PictureData PictureData { get; set; }
     }
 }

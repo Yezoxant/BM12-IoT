@@ -10,7 +10,7 @@ namespace BM12.Models
     public class Class
     {
         [Key]
-        public int CLassID { get; set; }
+        public int ClassID { get; set; }
         [Required]
         [StringLength(10, ErrorMessage = "Veld kan maximaal 10 tekens bevatten")]
         public string Classname { get; set; }
