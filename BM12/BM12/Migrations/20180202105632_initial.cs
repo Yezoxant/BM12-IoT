@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BM12Webapplication.Migrations
 {
-    public partial class Intial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,27 +69,43 @@ namespace BM12Webapplication.Migrations
                 name: "Classes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ClassID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Classname = table.Column<string>(maxLength: 10, nullable: false),
                     Year = table.Column<int>(maxLength: 1, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.PrimaryKey("PK_Classes", x => x.ClassID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "FeedbackQuestions",
+                name: "Courses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    CourseID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Question = table.Column<string>(nullable: false)
+                    Blocknumber = table.Column<int>(nullable: false),
+                    CourseName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FeedbackQuestions", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.CourseID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PictureData",
+                columns: table => new
+                {
+                    PictureDataID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Attention = table.Column<string>(nullable: true),
+                    DateTime = table.Column<DateTime>(nullable: false),
+                    Emotion = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PictureData", x => x.PictureDataID);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,26 +215,19 @@ namespace BM12Webapplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    UserID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Agreement = table.Column<bool>(nullable: false),
-                    ClassId = table.Column<int>(nullable: true),
                     IdentityId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_Users_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_AspNetUsers_IdentityId",
+                        name: "FK_User_AspNetUsers_IdentityId",
                         column: x => x.IdentityId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -226,77 +235,119 @@ namespace BM12Webapplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Feedbackanswers",
+                name: "ClassCourse",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ClassCourseID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FeedbackQuestionId = table.Column<int>(nullable: true),
-                    Note = table.Column<string>(maxLength: 50, nullable: false),
+                    ClassID = table.Column<int>(nullable: false),
+                    CourseID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassCourse", x => x.ClassCourseID);
+                    table.ForeignKey(
+                        name: "FK_ClassCourse_Classes_ClassID",
+                        column: x => x.ClassID,
+                        principalTable: "Classes",
+                        principalColumn: "ClassID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassCourse_Courses_CourseID",
+                        column: x => x.CourseID,
+                        principalTable: "Courses",
+                        principalColumn: "CourseID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserClass",
+                columns: table => new
+                {
+                    UserClassID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ClassID = table.Column<int>(nullable: false),
+                    UserID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClass", x => x.UserClassID);
+                    table.ForeignKey(
+                        name: "FK_UserClass_Classes_ClassID",
+                        column: x => x.ClassID,
+                        principalTable: "Classes",
+                        principalColumn: "ClassID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserClass_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Activities",
+                columns: table => new
+                {
+                    ActivityID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ActivityName = table.Column<string>(nullable: true),
+                    ClassCourseID = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activities", x => x.ActivityID);
+                    table.ForeignKey(
+                        name: "FK_Activities_ClassCourse_ClassCourseID",
+                        column: x => x.ClassCourseID,
+                        principalTable: "ClassCourse",
+                        principalColumn: "ClassCourseID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserActivity",
+                columns: table => new
+                {
+                    UserActivityID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ActivityID = table.Column<int>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    PictureDataID = table.Column<int>(nullable: false),
+                    Presence = table.Column<bool>(nullable: false),
+                    PresenceDatetime = table.Column<DateTime>(nullable: false),
                     Stars = table.Column<int>(nullable: false),
-                    userId = table.Column<int>(nullable: true)
+                    UserID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedbackanswers", x => x.Id);
+                    table.PrimaryKey("PK_UserActivity", x => x.UserActivityID);
                     table.ForeignKey(
-                        name: "FK_Feedbackanswers_FeedbackQuestions_FeedbackQuestionId",
-                        column: x => x.FeedbackQuestionId,
-                        principalTable: "FeedbackQuestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_UserActivity_Activities_ActivityID",
+                        column: x => x.ActivityID,
+                        principalTable: "Activities",
+                        principalColumn: "ActivityID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Feedbackanswers_Users_userId",
-                        column: x => x.userId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_UserActivity_PictureData_PictureDataID",
+                        column: x => x.PictureDataID,
+                        principalTable: "PictureData",
+                        principalColumn: "PictureDataID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserActivity_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "PictureData",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Attention = table.Column<string>(nullable: true),
-                    DateTime = table.Column<DateTime>(nullable: false),
-                    Emotion = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PictureData", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PictureData_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Userpresence",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Course = table.Column<string>(maxLength: 50, nullable: false),
-                    CourseActivity = table.Column<string>(maxLength: 50, nullable: false),
-                    Datetime = table.Column<DateTime>(nullable: false),
-                    Week = table.Column<int>(maxLength: 2, nullable: false),
-                    userId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Userpresence", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Userpresence_Users_userId",
-                        column: x => x.userId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Activities_ClassCourseID",
+                table: "Activities",
+                column: "ClassCourseID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -338,34 +389,44 @@ namespace BM12Webapplication.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedbackanswers_FeedbackQuestionId",
-                table: "Feedbackanswers",
-                column: "FeedbackQuestionId");
+                name: "IX_ClassCourse_ClassID",
+                table: "ClassCourse",
+                column: "ClassID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedbackanswers_userId",
-                table: "Feedbackanswers",
-                column: "userId");
+                name: "IX_ClassCourse_CourseID",
+                table: "ClassCourse",
+                column: "CourseID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PictureData_UserId",
-                table: "PictureData",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Userpresence_userId",
-                table: "Userpresence",
-                column: "userId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_ClassId",
-                table: "Users",
-                column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_IdentityId",
-                table: "Users",
+                name: "IX_User_IdentityId",
+                table: "User",
                 column: "IdentityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserActivity_ActivityID",
+                table: "UserActivity",
+                column: "ActivityID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserActivity_PictureDataID",
+                table: "UserActivity",
+                column: "PictureDataID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserActivity_UserID",
+                table: "UserActivity",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClass_ClassID",
+                table: "UserClass",
+                column: "ClassID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClass_UserID",
+                table: "UserClass",
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -389,28 +450,34 @@ namespace BM12Webapplication.Migrations
                 name: "Beacons");
 
             migrationBuilder.DropTable(
-                name: "Feedbackanswers");
+                name: "UserActivity");
 
             migrationBuilder.DropTable(
-                name: "PictureData");
-
-            migrationBuilder.DropTable(
-                name: "Userpresence");
+                name: "UserClass");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "FeedbackQuestions");
+                name: "Activities");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "PictureData");
+
+            migrationBuilder.DropTable(
+                name: "User");
+
+            migrationBuilder.DropTable(
+                name: "ClassCourse");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Classes");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Courses");
         }
     }
 }
